@@ -23,7 +23,6 @@ GameObject:
   - component: {fileID: 199961023887346722}
   - component: {fileID: 114034436400237274}
   - component: {fileID: 82421247330877774}
-  - component: {fileID: 122431308142126316}
   m_Layer: 0
   m_Name: BurstG
   m_TagString: Untagged
@@ -137,17 +136,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   timeOut: 3
   detachChildren: 0
---- !u!122 &122431308142126316
-Halo:
-  m_ObjectHideFlags: 1
-  m_PrefabParentObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1049754871997288}
-  m_Enabled: 1
-  m_Color:
-    serializedVersion: 2
-    rgba: 4286611584
-  m_Size: 0.001
 --- !u!198 &198585727994255830
 ParticleSystem:
   m_ObjectHideFlags: 1

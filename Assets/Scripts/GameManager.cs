@@ -8,9 +8,9 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager gm;
 	public string winSequence = "CA";
-	private string currentSequence = "";
-	
+	public GameObject fader;
 	public string nextLevel;
+	private string currentSequence = "";
 
 
 	// Use this for initialization
@@ -26,8 +26,9 @@ public class GameManager : MonoBehaviour {
         {
             Debug.Log(currentSequence);
         }
-       // if (Time.time > 10)
-        //    NextLevel();
+        if (Time.time > 2) {
+            NextLevel();
+        }
     }
 
     public void UpdateSequence(string character) {
@@ -45,7 +46,8 @@ public class GameManager : MonoBehaviour {
 
 	private void NextLevel ()
 	{
+        fader.GetComponent<Fading>().EndScene();
 		// we are just loading the specified next level (scene)
-		  SceneManager.LoadScene (nextLevel);		
-	}	
+		SceneManager.LoadScene (nextLevel);		
+	}
 }

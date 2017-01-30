@@ -125,6 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   burstPrefab: {fileID: 1442959193164946, guid: 5971f9db9f7dd6f448ccbab60b1987bd,
     type: 2}
+  orbNote: 
 --- !u!122 &122809210062448458
 Halo:
   m_ObjectHideFlags: 1
@@ -142,7 +143,7 @@ SphereCollider:
   m_PrefabParentObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1315404195708980}
-  m_Material: {fileID: 0}
+  m_Material: {fileID: 13400000, guid: 9f93f63d068b08c459038c40fce897d8, type: 2}
   m_IsTrigger: 0
   m_Enabled: 1
   serializedVersion: 2

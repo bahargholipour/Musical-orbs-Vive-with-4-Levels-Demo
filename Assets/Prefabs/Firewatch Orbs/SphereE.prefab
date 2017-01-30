@@ -110,7 +110,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c5820116837828a499c20e010c465a9c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  timeOut: 3
+  timeOut: 7
   detachChildren: 0
 --- !u!114 &114774719112149242
 MonoBehaviour:
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   burstPrefab: {fileID: 1442959193164946, guid: 5971f9db9f7dd6f448ccbab60b1987bd,
     type: 2}
-  orbNote: 
+  orbNote: E
 --- !u!122 &122809210062448458
 Halo:
   m_ObjectHideFlags: 1

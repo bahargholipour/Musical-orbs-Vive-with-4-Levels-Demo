@@ -10,8 +10,10 @@ public class SpawnGameObjects : MonoBehaviour
 	public float yMaxRange = 6.0f;
 	public float zMinRange = -5.0f;
 	public float zMaxRange = 5.0f;
+	public float orbRadius = 0.15f;
 	public GameObject[] spawnObjects; // what prefabs to spawn
 	private float nextSpawnTime;
+
 
     private SteamVR_Controller.Device Controller
     {
@@ -62,10 +64,12 @@ public class SpawnGameObjects : MonoBehaviour
 		// determine which object to spawn
 		int objectToSpawn = Random.Range (0, spawnObjects.Length);
 
-		// actually spawn the game object
-		GameObject spawnedObject = Instantiate (spawnObjects [objectToSpawn], spawnPosition, transform.rotation) as GameObject;
+        if (!Physics.CheckSphere(spawnPosition, orbRadius)) {
+            // actually spawn the game object
+			GameObject spawnedObject = Instantiate (spawnObjects [objectToSpawn], spawnPosition, transform.rotation) as GameObject;
 
-		// make the parent the spawner so hierarchy doesn't get super messy
-		spawnedObject.transform.parent = gameObject.transform;
+			// make the parent the spawner so hierarchy doesn't get super messy
+			spawnedObject.transform.parent = gameObject.transform;
+		}
 	}
 }

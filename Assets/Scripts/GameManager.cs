@@ -22,7 +22,7 @@ public class GameManager : MonoBehaviour {
 		
 	}
 
-	private void UpdateSequence(string character) {
+	public void UpdateSequence(string character) {
 		currentSequence += character;
 		if (currentSequence.Equals(winSequence, StringComparison.Ordinal)) {
 		  NextLevel();
@@ -33,7 +33,7 @@ public class GameManager : MonoBehaviour {
 		}
 	}
 
-	public void NextLevel ()
+	private void NextLevel ()
 	{
 		// we are just loading the specified next level (scene)
 		  Application.LoadLevel (nextLevel);

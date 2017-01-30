@@ -29,18 +29,15 @@ public class SpawnGameObjects : MonoBehaviour
 	{
 		// determine when to spawn the next object
 		nextSpawnTime = Time.time+secondsBetweenSpawning;
-        Debug.Log("lalala");
 		
 	}
 	
 	// Update is called once per frame
 	void Update ()
 	{
-        Debug.Log("lalala update");
 
         // if time to spawn a new game object
         if (Time.time  >= nextSpawnTime) {
-            Debug.Log("lalala next spawn");
 
             // Spawn the game object through function below
             MakeThingToSpawn();
@@ -54,7 +51,6 @@ public class SpawnGameObjects : MonoBehaviour
 	void MakeThingToSpawn ()
 	{
 		Vector3 spawnPosition = GameObject.FindGameObjectsWithTag("MainCamera")[0].transform.position;
-        Debug.Log(spawnPosition.ToString("G4"));
 
 		// get a random position between the specified ranges
 		spawnPosition.x +=  Random.Range (xMinRange, xMaxRange);

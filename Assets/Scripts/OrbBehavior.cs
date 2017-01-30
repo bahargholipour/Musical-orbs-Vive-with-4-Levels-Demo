@@ -18,8 +18,12 @@ public class OrbBehavior : MonoBehaviour {
 
     void OnCollisionEnter()
     {
-        GameManager.gm.UpdateSequence(orbNote);
         Instantiate(burstPrefab, transform.position, Quaternion.identity);
-        Destroy(gameObject); // destroy the grenade
+        GameManager.gm.UpdateSequence(orbNote);
+        Destroy(gameObject);
+    }
+
+    private void OnDestroy()
+    {
     }
 }

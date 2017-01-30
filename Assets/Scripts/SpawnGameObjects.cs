@@ -14,6 +14,12 @@ public class SpawnGameObjects : MonoBehaviour
 	public GameObject[] spawnObjects; // what prefabs to spawn
 	private float nextSpawnTime;
 
+
+    private SteamVR_Controller.Device Controller
+    {
+		get { return SteamVR_Controller.Input(0); }
+    }
+
     void Awake()
     {
 	    }

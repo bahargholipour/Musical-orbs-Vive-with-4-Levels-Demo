@@ -10,7 +10,6 @@ public class GameManager : MonoBehaviour {
 	private string currentSequence = "";
 	
 	public string nextLevel;
-	public int maxTime = 10;
 
 
 	// Use this for initialization
@@ -20,9 +19,7 @@ public class GameManager : MonoBehaviour {
 	
 	// Update is called once per frame
 	void Update () {
-		if (Time.time > maxTime) {
-			NextLevel();
-		}
+		
 	}
 
 	public void UpdateSequence(string character) {

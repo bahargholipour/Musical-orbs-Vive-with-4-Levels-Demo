@@ -4,6 +4,13 @@ using UnityEngine;
 
 public class GameManager : MonoBehaviour {
 
+    public static GameManager gm;
+	public string winSequence = "CA";
+	public string currentSequence = "";
+	
+	public string levels[] = {""MusicalOrbs","FireWatch"};
+
+	private string nextLevel = 1;
 	// Use this for initialization
 	void Start () {
 		
@@ -13,4 +20,18 @@ public class GameManager : MonoBehaviour {
 	void Update () {
 		
 	}
+
+	private void UpdateSequence(string character) {
+		currentSequence += character;
+		if (currentSequence.Equals(winSequence, StringComparison.Ordinal)) {
+			NextLevel();
+		}
+
+	}
+
+	public void NextLevel ()
+	{
+		// we are just loading the specified next level (scene)
+		Application.LoadLevel (levels[nextLevel]);
+	}	
 }

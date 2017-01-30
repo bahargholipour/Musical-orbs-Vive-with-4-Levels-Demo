@@ -112,7 +112,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   burstPrefab: {fileID: 1841737319298024, guid: 0232ea4cf04c3314a8097d5c235cd834,
     type: 2}
-  orbNote: 
+  orbNote: C
 --- !u!114 &114859816539983852
 MonoBehaviour:
   m_ObjectHideFlags: 1

@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -6,11 +7,11 @@ public class GameManager : MonoBehaviour {
 
     public static GameManager gm;
 	public string winSequence = "CA";
-	public string currentSequence = "";
+	private string currentSequence = "";
 	
-	public string levels[] = {""MusicalOrbs","FireWatch"};
+	public string nextLevel;
 
-	private string nextLevel = 1;
+
 	// Use this for initialization
 	void Start () {
 		
@@ -24,14 +25,18 @@ public class GameManager : MonoBehaviour {
 	private void UpdateSequence(string character) {
 		currentSequence += character;
 		if (currentSequence.Equals(winSequence, StringComparison.Ordinal)) {
-			NextLevel();
+		  NextLevel();
+		} else if (winSequence.StartsWith(currentSequence)) {
+          return;
+		} else {
+			currentSequence = "";
 		}
-
 	}
 
 	public void NextLevel ()
 	{
 		// we are just loading the specified next level (scene)
-		Application.LoadLevel (levels[nextLevel]);
+		  Application.LoadLevel (nextLevel);
+		
 	}	
 }

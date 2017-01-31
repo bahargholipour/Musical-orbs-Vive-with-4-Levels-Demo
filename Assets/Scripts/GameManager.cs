@@ -46,8 +46,6 @@ public class GameManager : MonoBehaviour {
 
 	private void NextLevel ()
 	{
-        fader.GetComponent<Fading>().EndScene();
-		// we are just loading the specified next level (scene)
-		SceneManager.LoadScene (nextLevel);		
+        fader.GetComponent<Fading>().EndScene(nextLevel);
 	}
 }

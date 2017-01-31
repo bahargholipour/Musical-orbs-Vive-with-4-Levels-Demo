@@ -10,8 +10,9 @@ public class Fading : MonoBehaviour
 	private bool fadeIn = true;
 
 
-    void Awake()
+    void Start()
     {
+	    fadeIn = true;
         FadeImg.rectTransform.localScale = new Vector2(Screen.width, Screen.height);
     }
 
@@ -57,7 +58,7 @@ public class Fading : MonoBehaviour
     {
         // Make sure the RawImage is enabled.
         FadeImg.enabled = true;
-        do
+        do	
         {
             // Start fading towards black.
             FadeOut();
@@ -79,6 +80,8 @@ public class Fading : MonoBehaviour
     public void EndScene(string nextLevel)
     {
         fadeIn = false;
-        StartCoroutine("EndSceneRoutine", nextLevel);
+		if (nextLevel.Length > 0) {
+        	StartCoroutine("EndSceneRoutine", nextLevel);
+		}
     }
 }   

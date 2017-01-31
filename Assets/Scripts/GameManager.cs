@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour {
         {
             Debug.Log(currentSequence);
         }
-        if (Time.time > 2) {
+        if (Time.time > 6) {
             NextLevel();
         }
     }

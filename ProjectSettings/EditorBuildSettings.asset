@@ -6,6 +6,12 @@ EditorBuildSettings:
   serializedVersion: 2
   m_Scenes:
   - enabled: 1
-    path: Assets/Scenes/Lost.unity
+    path: Assets/_Scenes/Opening.unity
   - enabled: 1
-    path: Assets/Scenes/Firewatch.unity
+    path: Assets/_Scenes/Desert island.unity
+  - enabled: 0
+    path: Assets/_Scenes/Lost.unity
+  - enabled: 1
+    path: Assets/_Scenes/Cliff.unity
+  - enabled: 1
+    path: Assets/_Scenes/Firewatch.unity

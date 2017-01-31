@@ -7,47 +7,75 @@ using UnityEngine.SceneManagement;
 public class GameManager : MonoBehaviour {
 
     public static GameManager gm;
-	public string winSequence = "CA";
-	public GameObject fader;
+    public enum PuzzleType {Time, Music, Collect};
+    public PuzzleType puzzle = PuzzleType.Time;
+	public string musicPuzzle = "CA";
+    public string collectPuzzle = "ABC";
+    public int timePuzzle = 20;
+
 	public string nextLevel;
+
 	private string currentSequence = "";
+    private bool puzzleSolved = false;
 
-
-	// Use this for initialization
-	void Start () {
+	void Awake () {
 
         if (gm == null)
             gm = this.gameObject.GetComponent<GameManager>();
     }
-	
-	// Update is called once per frame
+
 	void Update () {
-        if (currentSequence.Length > 0)
-        {
-            Debug.Log(currentSequence);
+        if (puzzle == PuzzleType.Time) {
+            UpdateTimePuzzle();
         }
-        if (Time.time > 2) {
+        if (puzzleSolved) {
             NextLevel();
         }
     }
 
-    public void UpdateSequence(string character) {
+    public void UpdateMusicPuzzle(string character) {
+        if (puzzle != PuzzleType.Music) {
+            return;
+        }
 		currentSequence += character;
         Debug.Log(currentSequence);
-        if (currentSequence.Equals(winSequence, StringComparison.Ordinal)) {
+        if (currentSequence.Equals(musicPuzzle, StringComparison.Ordinal)) {
             Debug.Log("equal");
-		  NextLevel();
-		} else if (!winSequence.StartsWith(currentSequence))
+            puzzleSolved = true;
+		} else if (!musicPuzzle.StartsWith(currentSequence))
         {
             Debug.Log("Reset");
             currentSequence = "";
         }
 	}
 
+    public void UpdateCollectPuzzle(string character) {
+        if (puzzle != PuzzleType.Collect) {
+            return;
+        }
+		currentSequence += character;
+        Debug.Log(currentSequence);
+        bool collected = true;
+        foreach (char c in collectPuzzle) {
+            if (!currentSequence.Contains("" + c)) {
+                collected = false;
+                break;
+            }
+        }
+        puzzleSolved = collected;
+	}
+
+    public void UpdateTimePuzzle() {
+        if (Time.time > 10) {
+            puzzleSolved = true;
+        }
+	}
+
 	private void NextLevel ()
 	{
-        fader.GetComponent<Fading>().EndScene();
+        if (nextLevel.Length > 0) {
 		// we are just loading the specified next level (scene)
 		SceneManager.LoadScene (nextLevel);		
+        }
 	}
 }

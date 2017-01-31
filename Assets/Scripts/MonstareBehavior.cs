@@ -1,10 +1,10 @@
 ﻿//github test - ignore!
 using UnityEngine;
 
-public class OrbBehavior : MonoBehaviour {
+public class MonstareBehavior : MonoBehaviour {
 
     public GameObject burstPrefab;
-    public string orbNote;
+    public string collectIndex;
 
     // Use this for initialization
     void Start () {
@@ -19,7 +19,7 @@ public class OrbBehavior : MonoBehaviour {
     void OnCollisionEnter()
     {
         Instantiate(burstPrefab, transform.position, Quaternion.identity);
-        GameManager.gm.UpdateMusicPuzzle(orbNote);
+        GameManager.gm.UpdateCollectPuzzle(collectIndex);
         Destroy(gameObject);
     }
 }

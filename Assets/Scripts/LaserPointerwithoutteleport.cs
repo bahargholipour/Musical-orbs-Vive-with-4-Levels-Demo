@@ -99,7 +99,7 @@ public class LaserPointerwithoutteleport : MonoBehaviour {
         
         Debug.Log(cameraRigTransform.position);
         Debug.Log(fracJourney);
-        if (fracJourney < 0.1) _needMove = false;
+        if (fracJourney > 0.1) _needMove = false;
 
     }
 

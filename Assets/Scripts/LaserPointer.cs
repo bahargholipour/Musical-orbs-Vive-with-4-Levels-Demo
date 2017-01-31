@@ -63,36 +63,26 @@ public class LaserPointer : MonoBehaviour
 
     void Update()
     {
-        // Is the touchpad held down?
-        if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
+        RaycastHit hit;
+        if (Physics.Raycast(trackedObj.transform.position, transform.forward, out hit, 100, teleportMask))
         {
-            RaycastHit hit;
-
-            // Send out a raycast from the controller
-            if (Physics.Raycast(trackedObj.transform.position, transform.forward, out hit, 100, teleportMask))
+            hitPoint = hit.point;
+            ShowLaser(hit);
+            reticle.SetActive(true);
+            // Is the touchpad held down?
+            if (Controller.GetPress(SteamVR_Controller.ButtonMask.Trigger))
             {
-                hitPoint = hit.point;
-
-                ShowLaser(hit);
-
                 //Show teleport reticle
-                reticle.SetActive(true);
                 teleportReticleTransform.position = hitPoint + teleportReticleOffset;
-
                 shouldTeleport = true;
+                Teleport();
             }
         }
-        else // Touchpad not held down, hide laser & teleport reticle
-        {
-            laser.SetActive(false);
-            reticle.SetActive(false);
-        }
+
 
         // Touchpad released this frame & valid teleport position found
-        if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad) && shouldTeleport)
-        {
-            Teleport();
-        }
+        //if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad) && shouldTeleport) {}
+      
     }
 
     private void ShowLaser(RaycastHit hit)

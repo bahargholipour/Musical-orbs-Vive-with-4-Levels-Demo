@@ -10,9 +10,8 @@ public class Fading : MonoBehaviour
 	private bool fadeIn = true;
 
 
-    void Start()
+    void Awake()
     {
-	    fadeIn = true;
         FadeImg.rectTransform.localScale = new Vector2(Screen.width, Screen.height);
     }
 
@@ -30,10 +29,10 @@ public class Fading : MonoBehaviour
     }
 
 
-    void FadeOut()
+    void FadeToBlack()
     {
         // Lerp the colour of the image between itself and black.
-        FadeImg.color = Color.Lerp(FadeImg.color, Color.white, fadeSpeed * Time.deltaTime);
+
     }
 
 
@@ -54,34 +53,19 @@ public class Fading : MonoBehaviour
         }
     }
 
-    public IEnumerator EndSceneRoutine(string SceneNumber)
+
+    public void EndSceneRoutine()
     {
         // Make sure the RawImage is enabled.
         FadeImg.enabled = true;
-        do	
-        {
-            // Start fading towards black.
-            FadeOut();
-
-            // If the screen is almost black...
-            if (FadeImg.color.a >= 0.95f)
-            {
-                // ... reload the level
-                SceneManager.LoadScene(SceneNumber);
-                yield break;
-            }
-            else
-            {
-                yield return null;
-            }
-        } while (true);
+		FadeImg.color = Color.white;
+		FadeImg.canvasRenderer.SetAlpha( 0.0f );
+		FadeImg.CrossFadeAlpha(100,10f,true);
     }
 
-    public void EndScene(string nextLevel)
+    public void EndScene()
     {
         fadeIn = false;
-		if (nextLevel.Length > 0) {
-        	StartCoroutine("EndSceneRoutine", nextLevel);
-		}
+       EndSceneRoutine();
     }
 }   

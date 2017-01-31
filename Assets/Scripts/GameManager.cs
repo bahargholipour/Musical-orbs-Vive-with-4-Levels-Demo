@@ -26,7 +26,7 @@ public class GameManager : MonoBehaviour {
         {
             Debug.Log(currentSequence);
         }
-        if (Time.time > 6) {
+        if (Time.time > 2) {
             NextLevel();
         }
     }
@@ -46,6 +46,8 @@ public class GameManager : MonoBehaviour {
 
 	private void NextLevel ()
 	{
-        fader.GetComponent<Fading>().EndScene(nextLevel);
+        fader.GetComponent<Fading>().EndScene();
+		// we are just loading the specified next level (scene)
+		SceneManager.LoadScene (nextLevel);		
 	}
 }

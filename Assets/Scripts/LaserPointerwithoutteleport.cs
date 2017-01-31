@@ -5,7 +5,7 @@ using UnityEngine;
 public class LaserPointerwithoutteleport : MonoBehaviour {
 
     public Transform cameraRigTransform;
-    public Transform FlyingTransform;
+   // public Transform FlyingTransform;
     public Transform headTransform; // The camera rig's head
     public Vector3 teleportReticleOffset; // Offset from the floor for the reticle to avoid z-fighting
     public LayerMask teleportMask; // Mask to filter out areas where teleports are allowed
@@ -20,8 +20,8 @@ public class LaserPointerwithoutteleport : MonoBehaviour {
     private GameObject reticle; // A reference to an instance of the reticle
     private Transform teleportReticleTransform; // Stores a reference to the teleport reticle transform for ease of use
 
-    public GameObject flyingPrefab;
-    private GameObject flying;
+   // public GameObject flyingPrefab;
+   // private GameObject flying;
 
     private Vector3 hitPoint; // Point where the raycast hits
     public bool shouldTeleport; // True if there's a valid teleport target
@@ -52,8 +52,8 @@ public class LaserPointerwithoutteleport : MonoBehaviour {
         laserTransform = laser.transform;
         reticle = Instantiate(teleportReticlePrefab);
         teleportReticleTransform = reticle.transform;
-        flying = Instantiate(flyingPrefab);
-        FlyingTransform = flying.transform;
+      //  flying = Instantiate(flyingPrefab);
+      //  FlyingTransform = flying.transform;
         
     }
 
@@ -93,15 +93,16 @@ public class LaserPointerwithoutteleport : MonoBehaviour {
         }
 
         if (!_needMove) return;
-
         float distCovered = (Time.time - startTime) * speed;
         float fracJourney = distCovered / journeyLength;
-        FlyingTransform.position = Vector3.Lerp(this.transform.position, hitPoint, fracJourney);
-        Debug.Log(FlyingTransform.position);
-        //Debug.Log(cameraRigTransform.position);
+        cameraRigTransform.position = Vector3.Lerp(this.transform.position, hitPoint, fracJourney);
+        
+        Debug.Log(cameraRigTransform.position);
+        Debug.Log(fracJourney);
+        if (fracJourney < 0.1) _needMove = false;
 
     }
-    
+
 
     private void ShowLaser(RaycastHit hit)
     {

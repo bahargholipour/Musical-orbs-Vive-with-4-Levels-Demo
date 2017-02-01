@@ -63,7 +63,7 @@ public class LaserPointerwithoutteleport : MonoBehaviour {
         if (state != State.LANDED)
         {
             // Is the touchpad held down?
-            if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad) & state == State.START)
+            if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad) && state == State.START)
             {
                 RaycastHit hit;
 
@@ -72,11 +72,12 @@ public class LaserPointerwithoutteleport : MonoBehaviour {
                 {
                     hitPoint = landingPoint.transform.position;
                     //  endMarker.position = hit.point;
-                    ShowLaser(hit);
+                    ShowLaser();
 
                     //Show teleport reticle
                     reticle.SetActive(true);
                     teleportReticleTransform.position = hit.point + teleportReticleOffset;
+                    state = State.TELEPORT;
                 }
             }
             else // Touchpad not held down, hide laser & teleport reticle
@@ -86,18 +87,18 @@ public class LaserPointerwithoutteleport : MonoBehaviour {
             }
 
             // Touchpad released this frame & valid teleport position found
-            if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
+            if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad) && state == State.TELEPORT)
             {
                 startTime = Time.time;
-                journeyLength = Vector3.Distance(this.transform.position, hitPoint);
+                journeyLength = Vector3.Distance(cameraRigTransform.position, hitPoint);
                 state = State.FLYING;
             }
 
             if (state == State.FLYING)
             {
-                //float distCovered = (Time.time - startTime) * speed;
-                float fracJourney = speed / journeyLength;
-                cameraRigTransform.position = Vector3.Lerp(this.transform.position, hitPoint, fracJourney);
+                float distCovered = (Time.time - startTime) * speed;
+                float fracJourney = distCovered / journeyLength;
+                cameraRigTransform.position = Vector3.Lerp(cameraRigTransform.position, hitPoint, fracJourney);
 
                 Debug.Log(cameraRigTransform.position);
                 Debug.Log(fracJourney);
@@ -110,13 +111,15 @@ public class LaserPointerwithoutteleport : MonoBehaviour {
     }
 
 
-    private void ShowLaser(RaycastHit hit)
+    private void ShowLaser()
     {
         laser.SetActive(true); //Show the laser
+        Debug.Log("laser is active");
         laserTransform.position = Vector3.Lerp(trackedObj.transform.position, hitPoint, .5f); // Move laser to the middle between the controller and the position the raycast hit
         laserTransform.LookAt(hitPoint); // Rotate laser facing the hit point
-        laserTransform.localScale = new Vector3(laserTransform.localScale.x, laserTransform.localScale.y,
-            hit.distance); // Scale laser so it fits exactly between the controller & the hit point
+        float distance = Vector3.Distance(transform.position, hitPoint);
+        laserTransform.localScale = new Vector3(laserTransform.localScale.x, laserTransform.localScale.y, distance
+            ); // Scale laser so it fits exactly between the controller & the hit point
     }
 }
 

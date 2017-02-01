@@ -66,7 +66,7 @@ public class GameManager : MonoBehaviour {
 	}
 
     public void UpdateTimePuzzle() {
-        if (Time.time > 10) {
+        if (Time.time > timePuzzle) {
             puzzleSolved = true;
         }
 	}

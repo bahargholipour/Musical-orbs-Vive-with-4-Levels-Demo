@@ -19,21 +19,22 @@ public class LaserPointerwithoutteleport : MonoBehaviour {
     public GameObject teleportReticlePrefab; // Stores a reference to the teleport reticle prefab.
     private GameObject reticle; // A reference to an instance of the reticle
     private Transform teleportReticleTransform; // Stores a reference to the teleport reticle transform for ease of use
-
+    private enum State {START, TELEPORT, FLYING, LANDED};
    // public GameObject flyingPrefab;
    // private GameObject flying;
 
     private Vector3 hitPoint; // Point where the raycast hits
-    public bool shouldTeleport; // True if there's a valid teleport target
+    
 
+    public GameObject landingPoint;
     
 
     //public Transform endMarker;
     public float speed = 1.0F;
     private float startTime;
     private float journeyLength;
-   
-    private bool _needMove = false;
+
+    private State state = State.START;
 
     private SteamVR_Controller.Device Controller
     {
@@ -59,48 +60,53 @@ public class LaserPointerwithoutteleport : MonoBehaviour {
 
     void Update()
     {
-        // Is the touchpad held down?
-        if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad))
+        if (state != State.LANDED)
         {
-            RaycastHit hit;
-
-            // Send out a raycast from the controller
-            if (Physics.Raycast(trackedObj.transform.position, transform.forward, out hit, 1000, teleportMask))
+            // Is the touchpad held down?
+            if (Controller.GetPress(SteamVR_Controller.ButtonMask.Touchpad) & state == State.START)
             {
-                hitPoint = hit.point;
-              //  endMarker.position = hit.point;
-                ShowLaser(hit);
+                RaycastHit hit;
 
-                //Show teleport reticle
-                reticle.SetActive(true);
-                teleportReticleTransform.position = hitPoint + teleportReticleOffset;
+                // Send out a raycast from the controller
+                if (Physics.Raycast(trackedObj.transform.position, transform.forward, out hit, 1000, teleportMask))
+                {
+                    hitPoint = landingPoint.transform.position;
+                    //  endMarker.position = hit.point;
+                    ShowLaser(hit);
 
-                shouldTeleport = true;
+                    //Show teleport reticle
+                    reticle.SetActive(true);
+                    teleportReticleTransform.position = hit.point + teleportReticleOffset;
+                }
+            }
+            else // Touchpad not held down, hide laser & teleport reticle
+            {
+                laser.SetActive(false);
+                reticle.SetActive(false);
+            }
+
+            // Touchpad released this frame & valid teleport position found
+            if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad))
+            {
+                startTime = Time.time;
+                journeyLength = Vector3.Distance(this.transform.position, hitPoint);
+                state = State.FLYING;
+            }
+
+            if (state == State.FLYING)
+            {
+                //float distCovered = (Time.time - startTime) * speed;
+                float fracJourney = speed / journeyLength;
+                cameraRigTransform.position = Vector3.Lerp(this.transform.position, hitPoint, fracJourney);
+
+                Debug.Log(cameraRigTransform.position);
+                Debug.Log(fracJourney);
+                if (fracJourney > 0.1)
+                {
+                    state = State.LANDED;
+                }
             }
         }
-        else // Touchpad not held down, hide laser & teleport reticle
-        {
-            laser.SetActive(false);
-            reticle.SetActive(false);
-        }
-
-        // Touchpad released this frame & valid teleport position found
-        if (Controller.GetPressUp(SteamVR_Controller.ButtonMask.Touchpad) && shouldTeleport)
-        {
-            startTime = Time.time;
-            journeyLength = Vector3.Distance(this.transform.position, hitPoint);
-            _needMove = true;
-        }
-
-        if (!_needMove) return;
-        float distCovered = (Time.time - startTime) * speed;
-        float fracJourney = distCovered / journeyLength;
-        cameraRigTransform.position = Vector3.Lerp(this.transform.position, hitPoint, fracJourney);
-        
-        Debug.Log(cameraRigTransform.position);
-        Debug.Log(fracJourney);
-        if (fracJourney > 0.1) _needMove = false;
-
     }
 
 
@@ -111,16 +117,6 @@ public class LaserPointerwithoutteleport : MonoBehaviour {
         laserTransform.LookAt(hitPoint); // Rotate laser facing the hit point
         laserTransform.localScale = new Vector3(laserTransform.localScale.x, laserTransform.localScale.y,
             hit.distance); // Scale laser so it fits exactly between the controller & the hit point
-    }
-
-    private void Teleport()
-    {
-        shouldTeleport = false; // Teleport in progress, no need to do it again until the next touchpad release
-        reticle.SetActive(false); // Hide reticle
-                                  // Vector3 difference = cameraRigTransform.position - headTransform.position; // Calculate the difference between the center of the virtual room & the player's head
-                                  // difference.y = 0; // Don't change the final position's y position, it should always be equal to that of the hit point
-                                  // cameraRigTransform.position = hitPoint + difference; // Change the camera rig position to where the the teleport reticle was. Also add the difference so the new virtual room position is relative to the player position, allowing the player's new position to be exactly where they pointed. (see illustration)
-
     }
 }
 

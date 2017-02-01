@@ -36,18 +36,18 @@ public class StoneSpawner : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-
-        // if time to spawn a new game object
-        if (Time.time >= nextSpawnTime)
+        if (Time.time < 2)
         {
+            // if time to spawn a new game object
+            if (Time.time >= nextSpawnTime)
+            {
+                // Spawn the game object through function below
+                MakeThingToSpawn();
 
-            // Spawn the game object through function below
-            MakeThingToSpawn();
-
-            // determine the next time to spawn the object
-            nextSpawnTime = Time.time + secondsBetweenSpawning;
+                // determine the next time to spawn the object
+                nextSpawnTime = Time.time + secondsBetweenSpawning;
+            }
         }
-
     }
 
     void MakeThingToSpawn()
